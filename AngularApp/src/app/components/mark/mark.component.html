@@ -1,0 +1,127 @@
+<link
+  href="https://cdn.jotfor.ms/static/formCss.css?3.3.26195"
+  rel="stylesheet"
+  type="text/css"
+/>
+<link
+  type="text/css"
+  rel="stylesheet"
+  href="https://cdn.jotfor.ms/css/styles/nova.css?3.3.26195"
+/>
+<link
+  type="text/css"
+  media="print"
+  rel="stylesheet"
+  href="https://cdn.jotfor.ms/css/printForm.css?3.3.26195"
+/>
+<link
+  type="text/css"
+  rel="stylesheet"
+  href="https://cdn.jotfor.ms/css/styles/payment/payment_feature.css?3.3.26195"
+/>
+
+<form
+  class="jotform-form"
+  method="post"
+  name="form_quiz"
+  id="form_quiz"
+  accept-charset="utf-8"
+  autocomplete="on"
+  (submit)="submitQuiz($event)"
+>
+  <div role="main" class="form-all">
+    <ul class="form-section page-section">
+      <li id="cid_7" class="form-input-wide" data-type="control_head">
+        <div class="form-header-group header-default">
+          <div class="header-text httal htvam">
+            <h2 id="header_7" class="form-header" data-component="header">
+              History Quiz
+            </h2>
+            <div id="subHeader_7" class="form-subHeader">
+              Submit this form to check your score {{ route_params.data }}
+            </div>
+          </div>
+        </div>
+      </li>
+      <div>
+        <h3 class="form-line">
+          Bạn có muốn được vinh danh trong bảng vàng của chúng tôi
+        </h3>
+        <li
+          class="form-line"
+          data-type="control_radio"
+          [id]="'id_' + questionIndex"
+        >
+          <label
+            class="form-label form-label-top form-label-auto"
+            for="fullname"
+          >
+            <b>Họ Tên</b>
+          </label>
+          <input name="fullname" id="fullname" />
+          <label class="form-label form-label-top form-label-auto" for="birth">
+            <b>Ngày, tháng, năm sinh</b>
+          </label>
+          <input name="birth" id="birth" />
+
+          <label class="form-label form-label-top form-label-auto" for="cmnd">
+            <b>Số CMND</b>
+          </label>
+          <input name="cmnd" id="cmnd" />
+
+          <label
+            class="form-label form-label-top form-label-auto"
+            for="address"
+          >
+            <b>Địa chỉ</b>
+          </label>
+          <textarea name="address" id="address" rows="3"></textarea>
+
+          <label class="form-label form-label-top form-label-auto" for="job">
+            <b>Nghề nghiệp</b>
+          </label>
+          <input name="job" id="job" />
+        </li>
+        <li class="form-line" data-type="control_button" id="id_button">
+          <div id="cid_2" class="form-input-wide">
+            <div
+              style="text-align: center"
+              data-align="center"
+              class="
+                form-buttons-wrapper form-buttons-center
+                jsTest-button-wrapperField
+              "
+            >
+              <input
+                id="button_yes"
+                type="submit"
+                class="
+                  form-submit-button
+                  submit-button
+                  jf-form-buttons
+                  jsTest-submitField
+                "
+                data-component="button"
+                value="YES"
+              />
+              <input
+                id="button_no"
+                type="submit"
+                class="
+                  form-submit-button
+                  submit-button
+                  jf-form-buttons
+                  jsTest-submitField
+                "
+                data-component="button"
+                value="NO"
+              />
+            </div>
+          </div>
+        </li>
+      </div>
+    </ul>
+  </div>
+
+  <div class="formFooter-heightMask"></div>
+</form>
