@@ -16,6 +16,9 @@ class file_reader
     // var_dump($printable);
   }
   ///// PRivate functions is located here
+  /** 
+   * Read the file. then handle the data received in to array[details_of_question (array too)]
+   */
   private function handle_raw_data()
   {
     $data_raw = $this->data_raw;
@@ -37,7 +40,8 @@ class file_reader
     return ($data_handle_2);
   }
 
-  private function get_random_number(int $num_of_question)
+  /** Get a array of 30 or any randomly unique interger*/
+  private function get_random_number(int $num_of_question = 30)
   {
     $list_number = [];
     for ($i = 0; $i < $num_of_question; $i++) {
@@ -51,6 +55,7 @@ class file_reader
     return $list_number;
   }
 
+  /** Check if the custom answer from client is right(true) or wrong(false) */
   private function test_the_anwser(string $reply, int $question_id)
   {
     foreach ($this->data_handled as $k => $data) {
@@ -62,13 +67,18 @@ class file_reader
   }
   ///////////// end Private field
 
-  public function load_questions_only()
+  /***
+   *  Use to load list randomly questions. 
+   * It load only the "question" and "question_id" not contains "answer" or "final_res" 
+   */
+  public function load_questions_only(int $num = 30)
   {
+    $number_of_question = ($num > 30) ? $num : 30;
     $list_questions_only = array_map(function ($question_details) {
       return [$question_details["question_id"], $question_details["question"]];
     }, $this->data_handled);
     // return ($list_questions_only);
-    $list_indexes_30 = $this->get_random_number(30);
+    $list_indexes_30 = $this->get_random_number($number_of_question);
     $list_question_only_30 = array_filter($list_questions_only, function ($question_key) use ($list_indexes_30) {
       return in_array($question_key, $list_indexes_30);
     },  ARRAY_FILTER_USE_KEY);
@@ -76,11 +86,16 @@ class file_reader
     return $list_question_only_30;
   }
 
+  /*** 
+   * Marked the submitted quiz form
+   * @param array $submitted_formdata actually it is the $_POST array (sent from client)
+   * @return float the mark (float not rounded) of the quiz form, in the range of 10.
+   */
   public function mark_the_submitted_form(array $submitted_formdata)
   {
     $mark = 0;
     foreach ($submitted_formdata as $k => $fdata) {
-      if ($k == "activity") {
+      if (strpos($k, "answer") !== 0) {
         continue;
       } else {
         $question_id = explode("_", $k)[1];
