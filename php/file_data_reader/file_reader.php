@@ -95,6 +95,7 @@ class file_reader
   {
     $mark = 0;
     foreach ($submitted_formdata as $k => $fdata) {
+      /// Only do the code below if the $k is formed "answer_" + *a digit*
       if (strpos($k, "answer") !== 0) {
         continue;
       } else {

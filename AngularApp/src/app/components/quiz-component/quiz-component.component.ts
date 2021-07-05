@@ -10,44 +10,24 @@ import { Router,  } from '@angular/router';
 export class QuizComponentComponent implements OnInit {
 
   listQuestions = [];
+  timeOfQuiz = 0;
+  numOfQuestions = 0;
+
   constructor(
     private router : Router
   ) { }
 
+  async ngOnInit() {  }
 
-  async ngOnInit() {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    let formData = new FormData();
-    formData.append("activity", "load_questions_list");
-    // let listQuestionDemo = null;
-    await fetch(BackendURLService.backendURL , {
-      body: formData, method: "POST",
-    }).then(response => response.text())
-      .then(result => {
-        let listQuestions = (JSON.parse(result));
-        // let ques: string;
-        for (let ques of listQuestions) {
-          ques[1]=ques[1].replace("A.", "</b><br/>A.");
-          ques[1]=ques[1].replace("B.", "<br/>B.");
-          ques[1]=ques[1].replace("C.", "<br/>C.");
-          ques[1]=ques[1].replace("D.", "<br/>D.");
-          ques[1]=ques[1].replace("E.", "<br/>E.");
-          ques[1]=ques[1].replace("F.", "<br/>F.");
-          ques[1] = ques[1].replace("G.", "<br/>G.");
-          // console.log(ques);
-          this.listQuestions.push(ques);
-        }
-      })
-  }
-
-  async submitQuiz(event) {
-    event.preventDefault();
+  /** When the client finish the quiz and click the "Submmit" button */
+  async submitQuiz(event: Event = null) {
+    if (event) {
+      event.stopPropagation();
+    }
     let formQuiz : HTMLFormElement = <HTMLFormElement> document.getElementById("form_quiz");
     let formDatas = new FormData(formQuiz);
-    formDatas.append("activity", "handle_quiz_submitted");
+    // formDatas.append("activity", "handle_quiz_submitted");
     // this.router.navigate(["/quiz_handled",{data: "hihihihi"}])
-
     await fetch(BackendURLService.backendURL, {
       body:formDatas, method:"POST"
     }).then(response =>  {
@@ -57,7 +37,64 @@ export class QuizComponentComponent implements OnInit {
             alert("Connect to server FAILed, please resubmit again")
         }
     }).then(result => {
+      console.log(result);
       this.router.navigate(["/quiz_handled",{data: JSON.parse(result)}])
     })
+  }
+
+  /** load and display the list of questions from server*/
+  async loadQuestions() {
+    let formData = new FormData();
+    // first fix the title (with the time)
+    let elementDivSubheader7 = <HTMLDivElement> document.querySelector("#subHeader_7");
+    let elementH2Header7 = <HTMLHeadingElement>document.querySelector("#header_7");
+    let elementDivContains = <HTMLDivElement>document.querySelector(".form-header-group.header-default");
+    elementH2Header7.style.position = "fixed";
+    elementH2Header7.style.backgroundColor = "hsla(0, 50%, 60%, 0.3)";
+    elementDivSubheader7.style.paddingTop = elementH2Header7.offsetHeight.toString() + "px";
+    elementDivContains.style.paddingTop = "0";
+
+    /// Then send API in order to load the list questions
+    formData.append("activity", "load_questions_list");
+    formData.append("numOfQuestions", this.numOfQuestions.toString());
+    // let listQuestionDemo = null;
+    await fetch(BackendURLService.backendURL, {
+      body: formData, method: "POST",
+    }).then(response => response.text())
+      .then(result => {
+        let listQuestions = (JSON.parse(result));
+        // let ques: string;
+        for (let ques of listQuestions) {
+          ques[1] = ques[1].replace("A.", "</b><br/>A.");
+          ques[1] = ques[1].replace("B.", "<br/>B.");
+          ques[1] = ques[1].replace("C.", "<br/>C.");
+          ques[1] = ques[1].replace("D.", "<br/>D.");
+          ques[1] = ques[1].replace("E.", "<br/>E.");
+          ques[1] = ques[1].replace("F.", "<br/>F.");
+          ques[1] = ques[1].replace("G.", "<br/>G.");
+          // console.log(ques);
+          this.listQuestions.push(ques);
+        }
+        this.setTimeForQuiz(this.numOfQuestions);
+      });
+  }
+
+  /** Set time out for the Quiz form */
+  async setTimeForQuiz(numOfQuestions:number) {
+    let timeOfQuizBeggin = 5 * numOfQuestions;
+    this.timeOfQuiz =  timeOfQuizBeggin;
+    let theInterval = setInterval(() => {
+      this.timeOfQuiz -= 1;
+      if (this.timeOfQuiz <= 0) {
+        this.submitQuiz()
+        // this.router.navigate(["/quiz_handled",{data: JSON.parse(result)}])
+        clearInterval(theInterval);
+      }
+    },  1000);
+  }
+
+  /** UPdate property "numOfQuestions" depend on the first input under Title */
+  updateNumOfQuestion(event) {
+    this.numOfQuestions = event.target.value;
   }
 }

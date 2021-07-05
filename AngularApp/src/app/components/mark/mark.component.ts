@@ -12,6 +12,7 @@ export class MarkComponent implements OnInit {
 
   ngOnInit() {
     this.route_params = (this.router.snapshot.params);
+
   }
 
 }

@@ -38,14 +38,19 @@
               History Quiz
             </h2>
             <div id="subHeader_7" class="form-subHeader">
-              Submit this form to check your score {{ route_params.data }}
+              Submit this form to check your score
+              {{ route_params.data.marked }}
             </div>
           </div>
         </div>
       </li>
       <div>
-        <h3 class="form-line">
-          Bạn có muốn được vinh danh trong bảng vàng của chúng tôi
+        <h3 class="form-line" *ngIf="route_params.data.got_top">
+          Xin chúc mừng!! Bạn là một trong những Nhà Thông Thái Lịch sử xuất sắc
+          nhất. Bạn có muốn được vinh danh trong bảng vàng của chúng tôi
+        </h3>
+        <h3 class="form-line" *ngIf="!route_params.data.got_top">
+          Rất tiếc!! Bạn chưa đủ xuất sắc để trở thành <i>Nhà Thông Thái</i>
         </h3>
         <li
           class="form-line"
@@ -58,16 +63,20 @@
           >
             <b>Họ Tên</b>
           </label>
-          <input name="fullname" id="fullname" />
+          <input
+            name="fullname"
+            id="fullname"
+            disabled="route_params.data.got_top"
+          />
           <label class="form-label form-label-top form-label-auto" for="birth">
             <b>Ngày, tháng, năm sinh</b>
           </label>
-          <input name="birth" id="birth" />
+          <input name="birth" id="birth" disabled="route_params.data.got_top" />
 
           <label class="form-label form-label-top form-label-auto" for="cmnd">
             <b>Số CMND</b>
           </label>
-          <input name="cmnd" id="cmnd" />
+          <input name="cmnd" id="cmnd" disabled="route_params.data.got_top" />
 
           <label
             class="form-label form-label-top form-label-auto"
@@ -75,12 +84,17 @@
           >
             <b>Địa chỉ</b>
           </label>
-          <textarea name="address" id="address" rows="3"></textarea>
+          <textarea
+            name="address"
+            id="address"
+            rows="3"
+            disabled="route_params.data.got_top"
+          ></textarea>
 
           <label class="form-label form-label-top form-label-auto" for="job">
             <b>Nghề nghiệp</b>
           </label>
-          <input name="job" id="job" />
+          <input name="job" id="job" disabled="route_params.data.got_top" />
         </li>
         <li class="form-line" data-type="control_button" id="id_button">
           <div id="cid_2" class="form-input-wide">
@@ -102,7 +116,7 @@
                   jsTest-submitField
                 "
                 data-component="button"
-                value="YES"
+                value="Tôi đồng ý"
               />
               <input
                 id="button_no"
@@ -114,7 +128,10 @@
                   jsTest-submitField
                 "
                 data-component="button"
-                value="NO"
+                [value]="
+                  (route_params.data.got_top ? 'không ,' : '') +
+                  'quay lại trang chủ'
+                "
               />
             </div>
           </div>

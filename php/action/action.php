@@ -6,10 +6,10 @@ require_once dirname(__FILE__, 2) . "/file_data_reader/file_reader.php";
 class action
 {
     /** For the request "activity" : load_question_list */
-    public function load_question_list()
+    public function load_question_list($num_of_questions)
     {
         $reader = new file_reader();
-        return (array_values($reader->load_questions_only()));
+        return (array_values($reader->load_questions_only($num_of_questions)));
     }
 
     /** 
