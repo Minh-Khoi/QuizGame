@@ -26,7 +26,7 @@ export class QuizComponentComponent implements OnInit {
     }
     let formQuiz : HTMLFormElement = <HTMLFormElement> document.getElementById("form_quiz");
     let formDatas = new FormData(formQuiz);
-    // formDatas.append("activity", "handle_quiz_submitted");
+    formDatas.append("activity", "handle_quiz_submitted");
     // this.router.navigate(["/quiz_handled",{data: "hihihihi"}])
     await fetch(BackendURLService.backendURL, {
       body:formDatas, method:"POST"
@@ -50,6 +50,7 @@ export class QuizComponentComponent implements OnInit {
     let elementH2Header7 = <HTMLHeadingElement>document.querySelector("#header_7");
     let elementDivContains = <HTMLDivElement>document.querySelector(".form-header-group.header-default");
     elementH2Header7.style.position = "fixed";
+    elementH2Header7.style.top = "0";
     elementH2Header7.style.backgroundColor = "hsla(0, 50%, 60%, 0.3)";
     elementDivSubheader7.style.paddingTop = elementH2Header7.offsetHeight.toString() + "px";
     elementDivContains.style.paddingTop = "0";
@@ -81,7 +82,7 @@ export class QuizComponentComponent implements OnInit {
 
   /** Set time out for the Quiz form */
   async setTimeForQuiz(numOfQuestions:number) {
-    let timeOfQuizBeggin = 5 * numOfQuestions;
+    let timeOfQuizBeggin = 5 * ((numOfQuestions<30) ? 30 : numOfQuestions);
     this.timeOfQuiz =  timeOfQuizBeggin;
     let theInterval = setInterval(() => {
       this.timeOfQuiz -= 1;
