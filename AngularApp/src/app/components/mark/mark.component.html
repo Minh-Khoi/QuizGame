@@ -1,33 +1,10 @@
-<link
-  href="https://cdn.jotfor.ms/static/formCss.css?3.3.26195"
-  rel="stylesheet"
-  type="text/css"
-/>
-<link
-  type="text/css"
-  rel="stylesheet"
-  href="https://cdn.jotfor.ms/css/styles/nova.css?3.3.26195"
-/>
-<link
-  type="text/css"
-  media="print"
-  rel="stylesheet"
-  href="https://cdn.jotfor.ms/css/printForm.css?3.3.26195"
-/>
-<link
-  type="text/css"
-  rel="stylesheet"
-  href="https://cdn.jotfor.ms/css/styles/payment/payment_feature.css?3.3.26195"
-/>
-
 <form
   class="jotform-form"
   method="post"
   name="form_quiz"
-  id="form_quiz"
+  id="form_mark"
   accept-charset="utf-8"
   autocomplete="on"
-  (submit)="submitQuiz($event)"
 >
   <div role="main" class="form-all">
     <ul class="form-section page-section">
@@ -39,17 +16,22 @@
             </h2>
             <div id="subHeader_7" class="form-subHeader">
               Submit this form to check your score
-              {{ route_params.data.marked }}
+              {{ data.marked }}
             </div>
           </div>
         </div>
       </li>
       <div>
-        <h3 class="form-line" *ngIf="route_params.data.got_top">
+        <h3 class="form-line" *ngIf="data.got_top">
           Xin chúc mừng!! Bạn là một trong những Nhà Thông Thái Lịch sử xuất sắc
-          nhất. Bạn có muốn được vinh danh trong bảng vàng của chúng tôi
+          nhất.
+          {{
+            candidateEditing
+              ? ""
+              : "Bạn có muốn được vinh danh trong bảng vàng của chúng tôi"
+          }}
         </h3>
-        <h3 class="form-line" *ngIf="!route_params.data.got_top">
+        <h3 class="form-line" *ngIf="!data.got_top">
           Rất tiếc!! Bạn chưa đủ xuất sắc để trở thành <i>Nhà Thông Thái</i>
         </h3>
         <li
@@ -66,17 +48,28 @@
           <input
             name="fullname"
             id="fullname"
-            disabled="route_params.data.got_top"
+            [value]="candidateLookUp.fullname"
+            [disabled]="!data.got_top || candidateEditing == 0"
           />
           <label class="form-label form-label-top form-label-auto" for="birth">
             <b>Ngày, tháng, năm sinh</b>
           </label>
-          <input name="birth" id="birth" disabled="route_params.data.got_top" />
+          <input
+            name="birth"
+            id="birth"
+            [value]="candidateLookUp.birth"
+            [disabled]="!data.got_top || candidateEditing == 0"
+          />
 
           <label class="form-label form-label-top form-label-auto" for="cmnd">
             <b>Số CMND</b>
           </label>
-          <input name="cmnd" id="cmnd" disabled="route_params.data.got_top" />
+          <input
+            name="cmnd"
+            id="cmnd"
+            [value]="candidateLookUp.cmnd"
+            [disabled]="!data.got_top || candidateEditing == 0"
+          />
 
           <label
             class="form-label form-label-top form-label-auto"
@@ -88,13 +81,19 @@
             name="address"
             id="address"
             rows="3"
-            disabled="route_params.data.got_top"
+            [value]="candidateLookUp.address"
+            [disabled]="!data.got_top || candidateEditing == 0"
           ></textarea>
 
           <label class="form-label form-label-top form-label-auto" for="job">
             <b>Nghề nghiệp</b>
           </label>
-          <input name="job" id="job" disabled="route_params.data.got_top" />
+          <input
+            name="job"
+            id="job"
+            [disabled]="!data.got_top || candidateEditing == 0"
+            [value]="candidateLookUp.job"
+          />
         </li>
         <li class="form-line" data-type="control_button" id="id_button">
           <div id="cid_2" class="form-input-wide">
@@ -106,33 +105,35 @@
                 jsTest-button-wrapperField
               "
             >
-              <input
+              <button
+                *ngIf="data.got_top || candidateEditing"
                 id="button_yes"
-                type="submit"
+                type="button"
                 class="
                   form-submit-button
                   submit-button
                   jf-form-buttons
                   jsTest-submitField
                 "
+                (click)="onYesClicked($event)"
                 data-component="button"
-                value="Tôi đồng ý"
-              />
-              <input
+              >
+                {{ candidateEditing ? "Xong" : "Tôi đồng ý" }}
+              </button>
+              <button
                 id="button_no"
-                type="submit"
+                type="button"
                 class="
                   form-submit-button
                   submit-button
                   jf-form-buttons
                   jsTest-submitField
                 "
+                (click)="onNoClicked($event)"
                 data-component="button"
-                [value]="
-                  (route_params.data.got_top ? 'không ,' : '') +
-                  'quay lại trang chủ'
-                "
-              />
+              >
+                {{ (data.got_top ? "không ," : "") + "quay lại trang chủ" }}
+              </button>
             </div>
           </div>
         </li>
