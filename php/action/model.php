@@ -19,15 +19,16 @@ class model
      */
     public function create_candidate(array $candidate_infos)
     {
-        $SQL = "Insert into candidate(fullname, birth, cmnd, address, job,auth_token) 
-                values  (:fullname, :birth, :cmnd, :address, :job, :auth_token)";
+        $SQL = "Insert into candidate(fullname, birth, cmnd, address, job,auth_token, mark) 
+                values  (:fullname, :birth, :cmnd, :address, :job, :auth_token, :mark)";
         $stmt = $this->conn->prepare($SQL);
         $stmt->bindParam(":fullname", $candidate_infos["fullname"]);
         $stmt->bindParam(":birth", $candidate_infos["birth"]);
         $stmt->bindParam(":cmnd", $candidate_infos["cmnd"]);
         $stmt->bindParam(":address", $candidate_infos["address"]);
         $stmt->bindParam(":job", $candidate_infos["job"]);
-        // $stmt->bindParam(":auth_token", $candidate_infos["auth_token"]);
+        $stmt->bindParam(":mark", $candidate_infos["mark"]);
+        $stmt->bindParam(":auth_token", $candidate_infos["auth_token"]);
         $stmt->execute();
     }
 
@@ -35,6 +36,7 @@ class model
     public function create_tokens_for_new_candidate()
     {
         $raw_token = "";
+        $enscrypted_token = null;
         do {
             for ($i = 0; $i < 10; $i++) {
                 $rand_num = (int) rand(0, 100);
@@ -42,31 +44,32 @@ class model
             }
             $enscrypted_token = md5($raw_token);
         } while ($this->tokens_existing($enscrypted_token));
+        return $enscrypted_token;
     }
 
     /*** Change info of the candidate */
-    public function update(array $candidate_infos)
+    public function update_by_column_name(array $candidate_infos, string $column_name)
     {
         $SQL = "Update candidate SET fullname = :fullname,
                                         birth = :birth,
                                         cmnd = :cmnd,
                                         address = :address,
                                         job = :job
-                                WHERE auth_tokens = :auth_tokens";
+                                WHERE " . $column_name . " = :data";
         $stmt = $this->conn->prepare($SQL);
         $stmt->bindParam(":fullname", $candidate_infos["fullname"]);
         $stmt->bindParam(":birth", $candidate_infos["birth"]);
         $stmt->bindParam(":cmnd", $candidate_infos["cmnd"]);
         $stmt->bindParam(":address", $candidate_infos["address"]);
         $stmt->bindParam(":job", $candidate_infos["job"]);
-        $stmt->bindParam(":auth_token", $candidate_infos["auth_token"]);
-        $stmt->execute();
+        $stmt->bindParam(":data", $candidate_infos[$column_name]);
+        ($stmt->execute());
     }
 
     /** Delete candidate */
     public function delete(string $tokens)
     {
-        $SQL = "Delete * from candidate 
+        $SQL = "Delete  from candidate 
                                 WHERE auth_tokens = :auth_tokens";
         $stmt = $this->conn->prepare($SQL);
         $stmt->bindParam(":auth_token", $tokens);
@@ -76,7 +79,7 @@ class model
     /** return a List as array[array] of all candidate in database */
     public function read_all()
     {
-        $SQL = "Select * from candidate";
+        $SQL = "Select id, fullname, birth, cmnd, address, job from candidate";
         $stmt = $this->conn->prepare($SQL);
         $stmt->execute();
         $result_set = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -88,10 +91,12 @@ class model
      * @param string $column_name
      * @param mixed $value value used as indicator for searching
      */
-    public function read_by_column(string $column_name, mixed $value)
+    public function read_by_column(string $column_name,  $value)
     {
-        $SQL = "Select * from candidate where " . $column_name . "=" . $value;
+        // var_dump($column_name);
+        $SQL = "Select id, fullname, birth, cmnd, address, job from candidate where " . $column_name . " = '" . $value . "'";
         $stmt = $this->conn->prepare($SQL);
+        // var_dump($SQL);
         $stmt->execute();
         $result_set = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result_set;

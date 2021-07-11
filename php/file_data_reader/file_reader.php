@@ -10,9 +10,14 @@ class file_reader
    */
   public function __construct()
   {
-    $this->data_raw .= file_get_contents(dirname(__FILE__, 3) . "/quiz.txt");
+    $list_filename = glob(dirname(__FILE__, 3) . "/*.questions.txt");
+    // var_dump($list_filename);
+    foreach ($list_filename as $k => $filename) {
+      $this->data_raw .= file_get_contents($filename) . "\n";
+    }
     // var_dump();
     $this->data_handled = $this->handle_raw_data($this->data_raw);
+    // var_dump($this->data_handled);
     // var_dump($printable);
   }
   ///// PRivate functions is located here

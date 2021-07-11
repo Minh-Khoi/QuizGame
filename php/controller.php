@@ -19,4 +19,20 @@ if ($activity == "load_questions_list") {
   $action = new action();
   // var_dump($_POST);
   echo json_encode($action->handle_quiz_submitted($_POST));
+} else if ($activity == "add_new_candidate") {
+  $action = new action();
+  $token_of_new_candidate = $action->add_new_candidate($_POST);
+  echo $token_of_new_candidate;
+} else if ($activity == "load_top_list") {
+  $action = new action();
+  $list = $action->load_top_list();
+  echo json_encode($list);
+} else if ($activity == "lookup_candidate") {
+  $action = new action();
+  $candidate_info = $action->lookup_candidate($_POST);
+  echo json_encode($candidate_info);
+  // var_dump($_POST);
+} else if ($activity == "update_candidate") {
+  $action = new action();
+  $action->update_candidate($_POST);
 }
