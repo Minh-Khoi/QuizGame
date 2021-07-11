@@ -28,7 +28,7 @@ export class MarkComponent implements OnInit {
     }
 
     // console.log((this.candidateLookUp !=null) && (this.candidateEditing == 'false'));
-    // console.log(this.formIsReady());
+    console.log(this.candidateEditing + "----" + typeof this.candidateEditing);
   }
 
   /** If the client click "NO" button */
