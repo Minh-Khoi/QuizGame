@@ -48,8 +48,8 @@
           <input
             name="fullname"
             id="fullname"
-            [value]="candidateLookUp.fullname"
-            [disabled]="!data.got_top || candidateEditing == 0"
+            [value]="!candidateLookUp ? '' : candidateLookUp.fullname"
+            [disabled]="formIsReady()"
           />
           <label class="form-label form-label-top form-label-auto" for="birth">
             <b>Ngày, tháng, năm sinh</b>
@@ -57,8 +57,8 @@
           <input
             name="birth"
             id="birth"
-            [value]="candidateLookUp.birth"
-            [disabled]="!data.got_top || candidateEditing == 0"
+            [value]="!candidateLookUp ? '' : candidateLookUp.birth"
+            [disabled]="formIsReady()"
           />
 
           <label class="form-label form-label-top form-label-auto" for="cmnd">
@@ -67,8 +67,8 @@
           <input
             name="cmnd"
             id="cmnd"
-            [value]="candidateLookUp.cmnd"
-            [disabled]="!data.got_top || candidateEditing == 0"
+            [value]="!candidateLookUp ? '' : candidateLookUp.cmnd"
+            [disabled]="formIsReady()"
           />
 
           <label
@@ -81,8 +81,8 @@
             name="address"
             id="address"
             rows="3"
-            [value]="candidateLookUp.address"
-            [disabled]="!data.got_top || candidateEditing == 0"
+            [value]="!candidateLookUp ? '' : candidateLookUp.address"
+            [disabled]="formIsReady()"
           ></textarea>
 
           <label class="form-label form-label-top form-label-auto" for="job">
@@ -91,9 +91,23 @@
           <input
             name="job"
             id="job"
-            [disabled]="!data.got_top || candidateEditing == 0"
-            [value]="candidateLookUp.job"
+            [disabled]="formIsReady()"
+            [value]="!candidateLookUp ? '' : candidateLookUp.job"
           />
+
+          <label
+            class="form-label form-label-top form-label-auto"
+            for="token"
+            *ngIf="candidateEditing"
+          >
+            <b>Token </b>
+          </label>
+          <textarea
+            *ngIf="candidateEditing"
+            name="token"
+            id="token"
+            [disabled]="formIsReady()"
+          ></textarea>
         </li>
         <li class="form-line" data-type="control_button" id="id_button">
           <div id="cid_2" class="form-input-wide">
@@ -118,7 +132,7 @@
                 (click)="onYesClicked($event)"
                 data-component="button"
               >
-                {{ candidateEditing ? "Xong" : "Tôi đồng ý" }}
+                {{ candidateLookUp != null ? "Xong" : "Tôi đồng ý" }}
               </button>
               <button
                 id="button_no"

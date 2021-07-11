@@ -37,8 +37,8 @@ export class QuizComponentComponent implements OnInit {
             alert("Connect to server FAILed, please resubmit again")
         }
     }).then(result => {
-      console.log(result);
-      this.router.navigate(["/quiz_handled",{data: JSON.parse(result)}])
+      // console.log(typeof(result));
+      this.router.navigate(["/quiz_handled",{data: result}])
     })
   }
 

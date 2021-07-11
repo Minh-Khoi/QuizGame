@@ -37,13 +37,13 @@
           <span id="top_list_div_button">
             <button
               [id]="'xem_' + candidate.id"
-              (click)="lookupCandidate($event, 0)"
+              (click)="lookupCandidate($event, false)"
             >
               XEM
             </button>
             <button
               [id]="'sua_' + candidate.id"
-              (click)="lookupCandidate($event, 1)"
+              (click)="lookupCandidate($event, true)"
             >
               SỬA
             </button>
