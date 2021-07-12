@@ -24,7 +24,7 @@ class action
         $mark = $reader->mark_the_submitted_form($submitted_data);
         $result = [
             "marked" => $mark,
-            "got_top" => ($mark >= 9) ? true : false
+            "got_top" => ($mark >= 0) ? true : false
         ];
         return $result;
     }

@@ -31,4 +31,5 @@ $data = [
     'job' => "King"
 ];
 
-var_dump($action->token_is_true($data, "HHHHHHHHHHHHHHlfsdkjfoijdosfjp"));
+$dir = glob(dirname(__FILE__, 2) . "/questions_dir/*.questions.txt");
+var_dump($dir);

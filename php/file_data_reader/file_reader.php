@@ -10,7 +10,7 @@ class file_reader
    */
   public function __construct()
   {
-    $list_filename = glob(dirname(__FILE__, 3) . "/*.questions.txt");
+    $list_filename = glob(dirname(__FILE__, 3) . "/questions_dir/*.questions.txt");
     // var_dump($list_filename);
     foreach ($list_filename as $k => $filename) {
       $this->data_raw .= file_get_contents($filename) . "\n";

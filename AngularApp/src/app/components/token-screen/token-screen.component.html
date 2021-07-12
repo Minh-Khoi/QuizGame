@@ -16,8 +16,10 @@
               tôi Tài khoản của bạn có Token là :
             </h2>
             <div id="subHeader_7_0">
-              <input disabled [value]="token" />
-              <button><i class="fas fa-copy"> COPY</i></button>
+              <input type="text" disabled [value]="token" />
+              <button (click)="copyToClipboard()">
+                <i class="fas fa-copy"> COPY</i>
+              </button>
             </div>
             <div id="subHeader_7" class="form-subHeader">
               Hãy lưu giữ Token trên, để có thể đăng nhập và thay đổi thông tin
