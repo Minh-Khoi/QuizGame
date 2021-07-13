@@ -67,10 +67,10 @@ class model
     }
 
     /** Delete candidate */
-    public function delete(string $tokens)
+    public function delete_by_token(string $tokens)
     {
         $SQL = "Delete  from candidate 
-                                WHERE auth_tokens = :auth_tokens";
+                                WHERE auth_token = :auth_token";
         $stmt = $this->conn->prepare($SQL);
         $stmt->bindParam(":auth_token", $tokens);
         $stmt->execute();

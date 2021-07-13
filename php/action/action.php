@@ -24,7 +24,8 @@ class action
         $mark = $reader->mark_the_submitted_form($submitted_data);
         $result = [
             "marked" => $mark,
-            "got_top" => ($mark >= 0) ? true : false
+            // "got_top" => ($mark >= 0) ? true : false /// THis line is used for debugging
+            "got_top" => ($mark >= 9) ? true : false /// THis line must work
         ];
         return $result;
     }
@@ -76,7 +77,7 @@ class action
     /**
      * For the activity: "update_candidate"
      * @param array $submitted_data actually it is the $_POST array, 
-     * @return array void
+     * @return void or an error string
      */
     public function update_candidate(array $submitted_data)
     {
@@ -84,13 +85,32 @@ class action
             return $key != "activity";
         }, ARRAY_FILTER_USE_KEY);
         $model = new model();
-        if ($this->token_is_true($candidate_infos, $candidate_infos['token'])) {
+        if ($this->token_is_true($candidate_infos, $candidate_infos['auth_token'])) {
             $model->update_by_column_name($candidate_infos, "id");
         } else {
             echo "Token wrong!! Candidate updating FAILED";
         }
         // var_dump($candidate_infos);
     }
+
+    /**
+     * For the activity: "delete_candidate"
+     * @param array $submitted_data actually it is the $_POST array, 
+     * @return void or an error string
+     */
+    public function delete_candidate(array $submitted_data)
+    {
+        $candidate_infos = array_filter($submitted_data, function ($key) {
+            return $key != "activity";
+        }, ARRAY_FILTER_USE_KEY);
+        $model = new model();
+        if ($this->token_is_true($candidate_infos, $candidate_infos['auth_token'])) {
+            $model->delete_by_token($submitted_data["auth_token"]);
+        } else {
+            echo "Token wrong!! Candidate deleting FAILED";
+        }
+    }
+
 
     //// PRIVATE FIELDS
     private function token_is_true(array $candidate_checked, string $token)

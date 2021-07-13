@@ -23,5 +23,5 @@ Website History Quiz Game hoạt động như sau:
 
 - Người dự thi bất kỳ tham gia một bài Kiểm tra (Câu hỏi được lựa chọn ngẫu nhiên lấy từ nội dung các file "\*.questions.txt", số câu hỏi do người dự thi tự chọn, tối thiểu 30)
 - Sau khi người dự thi submit bài kiểm tra, server sẽ tự động chấm điểm và trả về client kết quả
-  - Nếu điểm >=9, người dự thi sẽ được công nhận là "Nhà thông thái Lịch sử", và có thể được lưu vào danh sách "Top List" (nếu muốn). Thông tin được lưu vào Top List sẽ là: họ tên, ngày sinh, số CMND, địa chỉ, nghề nghiệp.
+  - Nếu điểm >=9, người dự thi sẽ được công nhận là "Nhà thông thái Lịch sử", và có thể được lưu vào danh sách "Top List" (nếu muốn). Thông tin được lưu vào Top List sẽ bao gồm: họ tên, ngày sinh, số CMND, địa chỉ, nghề nghiệp.
   - Ngoài ra những ai được lưu danh vào Top List sẽ được cấp một mã token duy nhất. Nếu sau này họ muốn thay đổi thông tin của mình trên Top List thì token sẽ được yêu cầu để xác thực

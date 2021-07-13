@@ -77,6 +77,25 @@ export class MarkComponent implements OnInit {
     }
   }
 
+  /** ANd If the client click YES */
+  async onDeleteClicked() {
+    let formElement = <HTMLFormElement>document.querySelector("#form_mark");
+    let formData = new FormData(formElement);
+    formData.append("activity", "delete_candidate");
+    formData.append("id", this.candidateLookUp.id);
+
+    await fetch(BackendURLService.backendURL, {
+      body:formData, method:"POST"
+    }).then(response => response.text())
+      .then(result => {
+        if (result.length > 0) {
+          alert(result);
+        } else {
+          this.routeNavigator.navigate(["/top_list"]);
+        }
+    })
+  }
+
   /** Check to disable the form */
   formIsReady() {
     if (this.data.got_top && !this.candidateLookUp) {

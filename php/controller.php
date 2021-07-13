@@ -35,4 +35,7 @@ if ($activity == "load_questions_list") {
 } else if ($activity == "update_candidate") {
   $action = new action();
   $action->update_candidate($_POST);
+} else if ($activity == "delete_candidate") {
+  $action = new action();
+  $action->delete_candidate($_POST);
 }

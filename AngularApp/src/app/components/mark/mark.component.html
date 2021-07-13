@@ -97,15 +97,15 @@
 
           <label
             class="form-label form-label-top form-label-auto"
-            for="token"
+            for="auth_token"
             *ngIf="candidateEditing"
           >
             <b>Token </b>
           </label>
           <textarea
             *ngIf="candidateEditing"
-            name="token"
-            id="token"
+            name="auth_token"
+            id="auth_token"
             [disabled]="formIsReady()"
           ></textarea>
         </li>
@@ -147,6 +147,20 @@
                 data-component="button"
               >
                 {{ (data.got_top ? "không ," : "") + "quay lại trang chủ" }}
+              </button>
+              <button
+                *ngIf="candidateLookUp != null && candidateEditing"
+                id="button_delete"
+                (click)="onDeleteClicked()"
+                type="button"
+                class="
+                  form-submit-button
+                  submit-button
+                  jf-form-buttons
+                  jsTest-submitField
+                "
+              >
+                XOÁ TÔI KHỎI DANH SÁCH
               </button>
             </div>
           </div>

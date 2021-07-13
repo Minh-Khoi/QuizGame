@@ -38,7 +38,9 @@ export class QuizComponentComponent implements OnInit {
         }
     }).then(result => {
       // console.log(typeof(result));
-      this.router.navigate(["/quiz_handled",{data: result}])
+      if (this.listQuestions.length > 0) {
+        this.router.navigate(["/quiz_handled", { data: result }]);
+      }
     })
   }
 
