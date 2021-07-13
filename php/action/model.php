@@ -79,7 +79,7 @@ class model
     /** return a List as array[array] of all candidate in database */
     public function read_all()
     {
-        $SQL = "Select id, fullname, birth, cmnd, address, job from candidate";
+        $SQL = "Select id, fullname, birth, cmnd, address, job, mark from candidate";
         $stmt = $this->conn->prepare($SQL);
         $stmt->execute();
         $result_set = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -94,7 +94,7 @@ class model
     public function read_by_column(string $column_name,  $value)
     {
         // var_dump($column_name);
-        $SQL = "Select id, fullname, birth, cmnd, address, job from candidate where " . $column_name . " = '" . $value . "'";
+        $SQL = "Select id, fullname, birth, cmnd, address, job, mark from candidate where " . $column_name . " = '" . $value . "'";
         $stmt = $this->conn->prepare($SQL);
         // var_dump($SQL);
         $stmt->execute();

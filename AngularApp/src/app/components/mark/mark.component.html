@@ -15,8 +15,10 @@
               History Quiz
             </h2>
             <div id="subHeader_7" class="form-subHeader">
-              Submit this form to check your score
-              {{ data.marked }}
+              <b>
+                your score:
+                {{ !candidateLookUp ? data.marked : candidateLookUp.mark }}
+              </b>
             </div>
           </div>
         </div>
@@ -34,6 +36,9 @@
         <h3 class="form-line" *ngIf="!data.got_top">
           Rất tiếc!! Bạn chưa đủ xuất sắc để trở thành <i>Nhà Thông Thái</i>
         </h3>
+        <button class="form-line" style="margin: 0 5%" (click)="seeTopList()">
+          Xem danh sách Nhà Thông Thái
+        </button>
         <li
           class="form-line"
           data-type="control_radio"

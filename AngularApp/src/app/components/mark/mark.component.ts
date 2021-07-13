@@ -107,4 +107,9 @@ export class MarkComponent implements OnInit {
     }
     return true;
   }
+
+  /** Go to the Top List page */
+  seeTopList() {
+    this.routeNavigator.navigate(['/top_list']);
+  }
 }

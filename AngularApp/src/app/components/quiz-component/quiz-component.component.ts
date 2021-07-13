@@ -24,6 +24,9 @@ export class QuizComponentComponent implements OnInit {
     if (event) {
       event.stopPropagation();
     }
+    if (this.listQuestions.length == 0) {
+      return;
+    }
     let formQuiz : HTMLFormElement = <HTMLFormElement> document.getElementById("form_quiz");
     let formDatas = new FormData(formQuiz);
     formDatas.append("activity", "handle_quiz_submitted");
@@ -38,9 +41,7 @@ export class QuizComponentComponent implements OnInit {
         }
     }).then(result => {
       // console.log(typeof(result));
-      if (this.listQuestions.length > 0) {
         this.router.navigate(["/quiz_handled", { data: result }]);
-      }
     })
   }
 
@@ -84,7 +85,7 @@ export class QuizComponentComponent implements OnInit {
 
   /** Set time out for the Quiz form */
   async setTimeForQuiz(numOfQuestions:number) {
-    let timeOfQuizBeggin = 5 * ((numOfQuestions<30) ? 30 : numOfQuestions);
+    let timeOfQuizBeggin = 15 * ((numOfQuestions<30) ? 30 : numOfQuestions);
     this.timeOfQuiz =  timeOfQuizBeggin;
     let theInterval = setInterval(() => {
       this.timeOfQuiz -= 1;

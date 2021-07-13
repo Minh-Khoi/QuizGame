@@ -24,8 +24,8 @@ class action
         $mark = $reader->mark_the_submitted_form($submitted_data);
         $result = [
             "marked" => $mark,
-            // "got_top" => ($mark >= 0) ? true : false /// THis line is used for debugging
-            "got_top" => ($mark >= 9) ? true : false /// THis line must work
+            // "got_top" => ($mark >= 0) ? true : false /// THis line is used for debugging and running demo
+            "got_top" => ($mark >= 5) ? true : false /// THis line must work
         ];
         return $result;
     }

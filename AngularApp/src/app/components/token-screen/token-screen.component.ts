@@ -24,7 +24,7 @@ export class TokenScreenComponent implements OnInit {
 
   /** When the client click "Copy" button */
   copyToClipboard() {
-    let tokenInputElement = document.querySelector("#subHeader_7_0 input");
+    let tokenInputElement = <HTMLInputElement> document.querySelector("#subHeader_7_0 input");
     // it is neccessary to enable the input element, so as to be able to copy its value
     tokenInputElement.disabled = false;
     tokenInputElement.select();
