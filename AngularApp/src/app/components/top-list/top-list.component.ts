@@ -29,7 +29,7 @@ export class TopListComponent implements OnInit {
 
   async lookupCandidate(event: Event, isEditing: boolean) {
     // console.log(isEditing);
-    let targetID = <string> event.target.id;
+    let targetID = (<HTMLElement> event.target).id;
     let candidateID = targetID.split("_")[1];
     let formData = new FormData();
     formData.append("activity", "lookup_candidate");
